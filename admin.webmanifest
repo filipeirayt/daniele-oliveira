@@ -1,0 +1,13 @@
+{
+  "name": "Painel · Daniele Oliveira",
+  "short_name": "Painel Dani",
+  "start_url": "admin.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#120d0b",
+  "theme_color": "#120d0b",
+  "icons": [
+    { "src": "assets/img/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/icone-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daniele Oliveira Sobrancelhas</title>
+<meta name="description" content="Design de sobrancelhas, microblading, ombré shadow e micropigmentação labial em Salvador. Agende online com Daniele Oliveira.">
+<meta name="theme-color" content="#120d0b">
+<meta property="og:title" content="Daniele Oliveira Sobrancelhas">
+<meta property="og:description" content="Sobrancelhas e micropigmentação em Salvador. Agende online.">
+<meta property="og:image" content="assets/img/hero.jpg">
+<link rel="icon" href="assets/img/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<!-- INTRO -->
+<div id="intro" role="presentation">
+  <div class="panels"><span></span><span></span><span></span><span></span><span></span></div>
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div class="in-glow" aria-hidden="true"></div>
+  <div class="in-c">
+    <svg viewBox="0 0 320 110" aria-hidden="true">
+      <defs><linearGradient id="gGold" x1="0" x2="1"><stop offset="0" stop-color="#b07a57"/><stop offset=".55" stop-color="#f0d6a8"/><stop offset="1" stop-color="#d9b47a"/></linearGradient></defs>
+      <line class="map" x1="40" y1="5" x2="40" y2="105"/>
+      <line class="map" x1="200" y1="5" x2="200" y2="105"/>
+      <line class="map" x1="290" y1="5" x2="290" y2="105"/>
+      <path class="brow" d="M20 88 C 60 60, 140 22, 205 24 C 245 26, 275 50, 300 74"/>
+      <path class="brow brow2" d="M26 96 C 80 72, 150 42, 205 40 C 240 40, 268 58, 294 80"/>
+      <circle class="spark" cx="205" cy="24" r="0"/>
+    </svg>
+    <div class="in-name" id="inName"><span class="w"><span class="ch" style="animation-delay:0.90s">D</span><span class="ch" style="animation-delay:0.96s">a</span><span class="ch" style="animation-delay:1.02s">n</span><span class="ch" style="animation-delay:1.08s">i</span><span class="ch" style="animation-delay:1.14s">e</span><span class="ch" style="animation-delay:1.20s">l</span><span class="ch" style="animation-delay:1.26s">e</span></span><span class="w it"><span class="ch" style="animation-delay:1.32s">O</span><span class="ch" style="animation-delay:1.38s">l</span><span class="ch" style="animation-delay:1.44s">i</span><span class="ch" style="animation-delay:1.50s">v</span><span class="ch" style="animation-delay:1.56s">e</span><span class="ch" style="animation-delay:1.62s">i</span><span class="ch" style="animation-delay:1.68s">r</span><span class="ch" style="animation-delay:1.74s">a</span></span></div>
+    <div class="in-tag">Sobrancelhas · PMU · Mentoria</div>
+  </div>
+  <div class="in-load"><small>Salvador · BA</small><div class="bar"><i id="inBar"></i></div><small>Carregando</small></div>
+</div>
+<div class="progress" id="progress"></div>
+
+<div class="cursor" id="cursor"></div>
+<div class="toast" id="toast"></div>
+<a class="cart-pill" id="cartPill" href="#agendar"><span id="cartTxt">1 serviço</span> · Agendar →</a>
+
+<nav class="top" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">Daniele <i>Oliveira</i><small>Sobrancelhas &amp; PMU</small></a>
+    <div class="links">
+      <a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="curso.html">Curso</a><a href="#galeria">Galeria</a><a href="#agendar">Agendar</a><a href="#contato">Contato</a>
+    </div>
+    <a href="#agendar" class="btn btn-gold btn-sm">Agendar horário</a>
+  </div>
+</nav>
+
+<main id="top">
+<!-- HERO -->
+<header class="hero" id="hero">
+  <canvas id="heroDust" aria-hidden="true"></canvas>
+  <div class="hero-aura" aria-hidden="true"></div>
+  <div class="hero-word" id="heroWord" aria-hidden="true">Daniele</div>
+  <div class="side-tag" aria-hidden="true">@daniele.oliveirabc · Salvador</div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="hero-eyebrow hero-fade"><i></i>Sobrancelhas &amp; PMU · Salvador</div>
+      <h1>
+        <span class="ln"><span>Sobrancelhas</span></span>
+        <span class="ln"><span>que <em>assinam<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M4 14 C 50 4, 140 2, 196 12"/></svg></em></span></span>
+        <span class="ln"><span>o seu olhar.</span></span>
+      </h1>
+      <p class="lead hero-fade d1">Design e micropigmentação feitos sob medida para o seu rosto, por Daniele Oliveira<span class="verified"><svg viewBox="0 0 24 24"><path fill="#4b9bf5" d="M12 1l2.6 2.2 3.4-.4.9 3.3 3 1.7-1.2 3.2 1.2 3.2-3 1.7-.9 3.3-3.4-.4L12 23l-2.6-2.2-3.4.4-.9-3.3-3-1.7L3.3 13 2.1 9.8l3-1.7.9-3.3 3.4.4z"/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></p>
+      <div class="cta-row hero-fade d2">
+        <a href="#agendar" class="btn btn-gold magnet">Agendar meu horário
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#cursos" class="btn btn-ghost magnet">Cursos &amp; mentoria</a>
+      </div>
+      <div class="mini-proof hero-fade d3">
+        <div class="av"><img src="assets/img/design.jpg" alt=""><img src="assets/img/henna.jpg" alt=""><img src="assets/img/ombre.jpg" alt=""><img src="assets/img/shadowline.jpg" alt=""></div>
+        <span><b>+3.100</b> pessoas acompanham<br>o trabalho dela</span>
+      </div>
+    </div>
+
+    <div class="hero-visual" id="heroVisual">
+      <div class="arch-wrap" id="archWrap">
+        <div class="arch-ring" aria-hidden="true"></div>
+        <div class="halo" aria-hidden="true"><i></i></div>
+        <svg class="tw tw1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"/></svg>
+        <svg class="tw tw2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"/></svg>
+        <svg class="tw tw3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z"/></svg>
+        <div class="arch-border" aria-hidden="true"></div>
+        <div class="photo-stage" id="stage">
+          <img src="assets/img/hero.jpg" alt="Daniele Oliveira em retrato de estúdio">
+          <div class="shine"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#numeros" class="scroll-cue" aria-label="Rolar"><span></span>Role</a>
+</header>
+
+<div class="numbers" id="numeros">
+  <div class="wrap">
+    <div class="num"><b data-count="3100" data-suffix="+">0</b><span>Seguidores</span></div>
+    <div class="num"><b data-count="336">0</b><span>Publicações</span></div>
+    <div class="num"><b data-count="11">0</b><span>Procedimentos</span></div>
+    <div class="num"><b><em>✦</em></b><span>Mentora de designers</span></div>
+  </div>
+</div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Design personalizado</span><span>✦</span><span>Microblading fio a fio</span><span>✦</span><span>Ombré shadow</span><span>✦</span><span>Shadowline</span><span>✦</span><span>Micro labial</span><span>✦</span><span>Henna</span><span>✦</span><span>Lash lifting</span><span>✦</span><span>Curso Design Fairy</span><span>✦</span>
+    <span>Design personalizado</span><span>✦</span><span>Microblading fio a fio</span><span>✦</span><span>Ombré shadow</span><span>✦</span><span>Shadowline</span><span>✦</span><span>Micro labial</span><span>✦</span><span>Henna</span><span>✦</span><span>Lash lifting</span><span>✦</span><span>Curso Design Fairy</span><span>✦</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="wrap">
+    <div class="about">
+      <div class="about-photo rv">
+        <div class="ring"></div>
+        <img src="assets/img/circle.jpg" alt="Retrato de Daniele Oliveira">
+        <div class="badge"><div><b>PMU</b>Especialista</div></div>
+      </div>
+      <div class="about-txt rv">
+        <span class="eyebrow">Quem é Daniele Oliveira</span>
+        <h2>Ela não faz sobrancelha. <em>Ela desenha identidade.</em></h2>
+        <p class="lead">Daniele Oliveira é especialista em sobrancelhas e micropigmentação em Salvador. Cada atendimento começa pelo estudo do seu rosto: proporção, simetria e o que combina com você. O resultado é natural, marcante e feito para durar.</p>
+        <p class="lead">Além do atendimento, ela é mentora de designers iniciantes e ensina a transformar sobrancelhas em profissão.</p>
+        <div class="pillars">
+          <div class="pillar"><svg viewBox="0 0 24 24"><path d="M3 15c4-5 10-8 18-6"/><path d="M8 4v16M16 4v16" stroke-dasharray="2 3"/></svg><b>Visagismo</b><span>Mapeamento do rosto antes de cada desenho</span></div>
+          <div class="pillar"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg><b>PMU</b><span>Microblading, ombré, shadowline e lábios</span></div>
+          <div class="pillar"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg><b>Mentora</b><span>Formação para quem está começando</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="talk rv">
+      <div class="ph"><img src="assets/img/talk.jpg" alt="Daniele com jovens aprendizes do Hospital Irmã Dulce"></div>
+      <div class="tx">
+        <span class="chip">Palestra</span>
+        <h3>Inspirando a próxima geração</h3>
+        <p class="lead">Daniele foi convidada para conversar com os jovens aprendizes do Hospital Irmã Dulce e contar como a profissão mudou a vida dela. Uma referência dentro e fora do estúdio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos" class="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv">
+        <span class="eyebrow">Serviços &amp; valores</span>
+        <h2>Escolha o seu <em>procedimento</em></h2>
+        <p class="lead">Toque em um serviço para adicioná-lo ao seu agendamento. Você pode escolher mais de um.</p>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button class="tab on" data-f="all">Todos</button>
+      <button class="tab" data-f="sob">Sobrancelhas</button>
+      <button class="tab" data-f="pmu">Micropigmentação</button>
+      <button class="tab" data-f="lab">Lábios</button>
+      <button class="tab" data-f="olh">Olhar &amp; rosto</button>
+    </div>
+    <div class="svc-grid" id="svcGrid"><div class="svc-skel"></div><div class="svc-skel"></div><div class="svc-skel"></div><div class="svc-skel"></div><div class="svc-skel"></div><div class="svc-skel"></div></div>
+
+    <!-- simulador de técnicas -->
+    <div class="tech rv">
+      <div>
+        <canvas id="browCanvas" width="960" height="540" aria-label="Ilustração da técnica selecionada"></canvas>
+      </div>
+      <div>
+        <span class="eyebrow">Compare as técnicas</span>
+        <h2 style="font-size:clamp(2rem,4.4vw,3.2rem);margin-top:12px">Fio a fio, esfumado <em>ou os dois?</em></h2>
+        <div class="tech-btns" id="techBtns">
+          <button class="tab on" data-t="micro">Microblading</button>
+          <button class="tab" data-t="ombre">Ombré shadow</button>
+          <button class="tab" data-t="shadow">Shadowline</button>
+        </div>
+        <div class="tech-info" id="techInfo"></div>
+        <div class="tech-price" id="techPrice"></div>
+        <button class="btn btn-ghost btn-sm" id="techAdd" style="margin-top:14px">Adicionar ao agendamento</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURSOS -->
+<section id="cursos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv">
+        <span class="eyebrow">Cursos &amp; mentoria</span>
+        <h2>Transforme sobrancelhas em <em>profissão</em></h2>
+        <p class="lead">Aprenda com quem vive disso todos os dias. Turmas e vagas são combinadas direto com a Daniele pelo WhatsApp.</p>
+      </div>
+    </div>
+    <div class="courses">
+      <article class="course rv">
+        <div class="cph"><img src="assets/img/talk.jpg" alt="Daniele Oliveira ensinando jovens aprendizes"></div>
+        <div class="cbody">
+          <span class="chip">Curso presencial</span>
+          <h3>Curso Design <em>Fairy</em></h3>
+          <p class="lead">Curso de design de sobrancelhas com henna para quem quer começar do zero e sair pronta para atender.</p>
+          <ul>
+            <li>Design de sobrancelhas e mapeamento do rosto</li>
+            <li>Aplicação de henna do jeito certo</li>
+            <li>Prática orientada pela Daniele</li>
+            <li>Certificado de conclusão</li>
+          </ul>
+          <div class="cfoot">
+            <b><small>Investimento</small>R$ 600</b>
+            <div class="cta-row"><a class="btn btn-ghost btn-sm" href="curso.html">Saiba mais</a><a class="btn btn-gold btn-sm wa-link" data-msg="Olá, Daniele! Tenho interesse no Curso Design Fairy (R$ 600). Pode me passar as próximas datas e como garantir minha vaga?" href="#" target="_blank" rel="noopener">Garantir vaga</a></div>
+          </div>
+        </div>
+      </article>
+      <article class="course dark rv">
+        <div class="cph"><img src="assets/img/banner.jpg" alt="Daniele Oliveira, mentora de designers"></div>
+        <div class="cbody">
+          <span class="chip">Mentoria</span>
+          <h3>Mentoria para designers <em>iniciantes</em></h3>
+          <p class="lead">Acompanhamento direto com a Daniele para quem já começou e quer crescer: técnica, atendimento e como lotar a agenda.</p>
+          <ul>
+            <li>Correção de técnica e acabamento</li>
+            <li>Precificação e posicionamento</li>
+            <li>Como atrair e fidelizar clientes</li>
+            <li>Acompanhamento próximo</li>
+          </ul>
+          <div class="cfoot">
+            <b><small>Valor</small><span style="font-size:1.6rem">Sob consulta</span></b>
+            <div class="cta-row"><a class="btn btn-ghost btn-sm" href="curso.html#mentoria">Saiba mais</a><a class="btn btn-gold btn-sm wa-link" data-msg="Olá, Daniele! Quero saber mais sobre a sua mentoria para designers iniciantes." href="#" target="_blank" rel="noopener">Quero a mentoria</a></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv">
+        <span class="eyebrow">Resultados</span>
+        <h2>O trabalho <em>fala por si</em></h2>
+      </div>
+      <div class="gal-hint">Arraste para ver <i></i></div>
+    </div>
+    <div class="gal" id="gal">
+      <div class="gi"><img src="assets/img/back.jpg" alt="Daniele Oliveira"><span>Daniele</span></div>
+      <div class="gi sq"><img src="assets/img/ombre.jpg" alt="Ombré shadow"><span>Ombré shadow</span></div>
+      <div class="gi sq"><img src="assets/img/microlabial.jpg" alt="Micro labial"><span>Micro labial</span></div>
+      <div class="gi sq"><img src="assets/img/frances.jpg" alt="Cílios look francês"><span>Look francês</span></div>
+      <div class="gi sq"><img src="assets/img/shadowline.jpg" alt="Shadowline"><span>Shadowline</span></div>
+      <div class="gi sq"><img src="assets/img/henna.jpg" alt="Design com henna"><span>Henna</span></div>
+      <div class="gi sq"><img src="assets/img/neutral.jpg" alt="Neutralização labial"><span>Neutralização</span></div>
+      <div class="gi sq"><img src="assets/img/lifting.jpg" alt="Lash lifting"><span>Lash lifting</span></div>
+      <div class="gi sq"><img src="assets/img/design.jpg" alt="Design personalizado"><span>Design</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- AGENDAMENTO -->
+<section id="agendar" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv">
+        <span class="eyebrow">Agendamento online</span>
+        <h2>Reserve seu horário <em>em 1 minuto</em></h2>
+        <p class="lead">A agenda abaixo é a agenda real da Daniele. Escolha o horário livre, reserve na hora e receba a confirmação pelo WhatsApp.</p>
+      </div>
+      <div class="live-badge rv"><span class="live-dot"></span><span id="liveTxt">Agenda ao vivo</span></div>
+    </div>
+    <div class="how rv">
+      <div><em>PASSO 1</em><b>Escolha</b><span>Procedimento, dia e horário livre na agenda dela.</span></div>
+      <div><em>PASSO 2</em><b>Reserve</b><span>Seu horário fica guardado na mesma hora, só para você.</span></div>
+      <div><em>PASSO 3</em><b>Confirme</b><span>A Daniele confirma tudo com você pelo WhatsApp.</span></div>
+    </div>
+    <div class="booking">
+      <div class="bk-panel" id="bkPanel">
+        <div class="demo-tag" id="demoTag" hidden>Modo demonstração · os agendamentos ficam só neste navegador</div>
+        <div class="steps" id="steps"><div class="done"></div><div></div><div></div><div></div></div>
+
+        <div class="step on" data-s="0">
+          <h3>Quais serviços você quer?</h3>
+          <p class="sub">Marque um ou mais.</p>
+          <div class="pick-list" id="pickList">
+            <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
+          </div>
+        </div>
+
+        <div class="step" data-s="1">
+          <h3>Escolha o dia</h3>
+          <p class="sub">Dias em dourado têm horário livre.</p>
+          <div class="cal-head"><span id="calTitle"></span><div class="cal-nav"><button id="calPrev" aria-label="Mês anterior">‹</button><button id="calNext" aria-label="Próximo mês">›</button></div></div>
+          <div class="cal" id="cal"></div>
+          <div class="cal-legend"><span><i class="lg-free"></i>Com horário</span><span><i class="lg-full"></i>Lotado</span><span><i class="lg-off"></i>Fechado</span></div>
+        </div>
+
+        <div class="step" data-s="2">
+          <h3>Escolha o horário</h3>
+          <p class="sub" id="slotSub">Horários livres.</p>
+          <div id="slots"></div>
+        </div>
+
+        <div class="step" data-s="3">
+          <h3>Seus dados</h3>
+          <p class="sub">A Daniele vai confirmar pelo seu WhatsApp.</p>
+          <div class="field"><label for="fName">Seu nome completo</label><input id="fName" autocomplete="name" placeholder="Como você se chama?"></div>
+          <div class="field"><label for="fPhone">Seu WhatsApp com DDD</label><input id="fPhone" inputmode="tel" autocomplete="tel" placeholder="(71) 99999-0000"></div>
+          <div class="field"><label for="fObs">Observação (opcional)</label><textarea id="fObs" rows="2" placeholder="Ex.: primeira vez, já fiz micropigmentação antes…"></textarea></div>
+        </div>
+
+        <div class="step" data-s="4">
+          <div class="done-box">
+            <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+            <h3 class="done-title">Horário reservado!</h3>
+            <p class="sub" id="doneTxt"></p>
+            <div class="code-chip">Código <b id="doneCode">—</b></div>
+            <div class="done-actions">
+              <a class="btn btn-wa" id="doneWa" href="#" target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg>
+                Avisar a Daniele no WhatsApp</a>
+              <a class="btn btn-ghost btn-sm" id="doneCal" href="#" target="_blank" rel="noopener">Salvar na minha agenda</a>
+              <button class="btn btn-ghost btn-sm" id="doneNew">Fazer outro agendamento</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="err" id="err" role="alert"></div>
+        <div class="bk-nav" id="bkNav">
+          <button class="btn btn-ghost btn-sm" id="back" disabled>Voltar</button>
+          <button class="btn btn-gold btn-sm" id="next">Continuar</button>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <h4>Seu agendamento</h4>
+        <div class="sum-list" id="sumList"></div>
+        <div class="sum-meta">
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="sumDate">Data a escolher</span></div>
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="sumTime">Horário a escolher</span></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-cfg="CIDADE">Salvador · BA</span></div>
+        </div>
+        <div class="sum-total"><span>Total</span><b id="sumTotal">R$ 0</b></div>
+        <p class="note">Valores conforme a tabela da Daniele. Neutralização labial é cobrada por sessão. Para remarcar, fale com ela no WhatsApp informando seu código.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO + CURSO -->
+<section id="contato">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="rv">
+        <span class="eyebrow">Contato</span>
+        <h2>Fale com a Daniele <em>ou venha aprender com ela</em></h2>
+      </div>
+    </div>
+    <div class="contact-grid">
+      <article class="pitch rv" id="pitch">
+        <div class="pitch-img"><img src="assets/img/circle.jpg" alt="Daniele Oliveira, professora do Curso Design Fairy" style="object-position:50% 30%"></div>
+        <div class="pitch-body">
+          <span class="chip">Curso presencial · Salvador</span>
+          <h3>Curso Design <em>Fairy</em></h3>
+          <p class="lead">Aprenda design de sobrancelhas com henna com quem atende todos os dias e saia pronta para conquistar suas primeiras clientes.</p>
+          <ul class="pitch-list">
+            <li>Do zero ao primeiro atendimento</li>
+            <li>Prática orientada pela Daniele</li>
+            <li>Certificado de conclusão</li>
+          </ul>
+          <div class="pitch-foot">
+            <div class="pitch-price"><small>Investimento</small><b>R$ 600</b></div>
+            <div class="cta-row">
+              <a href="curso.html" class="btn btn-gold magnet">Saiba mais
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              <a href="#" class="btn btn-ghost wa-link magnet" data-msg="Olá, Daniele! Tenho interesse no Curso Design Fairy. Pode me passar as próximas datas?" target="_blank" rel="noopener">Quero minha vaga</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="contact-side">
+        <a href="#" class="ct-item wa-link rv" data-msg="Olá, Daniele! Vim pelo seu site." target="_blank" rel="noopener">
+          <span class="ct-ic ic-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg></span>
+          <span class="ct-tx"><small>WhatsApp</small><b data-cfg="WHATSAPP_EXIBICAO">(71) 99348-2755</b></span>
+          <span class="ct-go">→</span>
+        </a>
+        <a href="https://www.instagram.com/daniele.oliveirabc/" class="ct-item rv" target="_blank" rel="noopener" id="igLink">
+          <span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>
+          <span class="ct-tx"><small>Instagram</small><b>@daniele.oliveirabc</b></span>
+          <span class="ct-go">→</span>
+        </a>
+        <div class="ct-item static rv">
+          <span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="ct-tx"><small>Atendimento</small><b id="hrResumo">Carregando horários…</b></span>
+        </div>
+        <div class="ct-item static rv">
+          <span class="ct-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <span class="ct-tx"><small>Onde</small><b data-cfg="CIDADE">Salvador · BA</b></span>
+        </div>
+        <form class="quick rv" id="quickForm" novalidate>
+          <label for="qMsg">Mensagem rápida</label>
+          <div class="quick-chips" id="quickChips">
+            <button type="button" data-t="Quero saber valores e disponibilidade.">Valores</button>
+            <button type="button" data-t="Quero agendar uma avaliação.">Avaliação</button>
+            <button type="button" data-t="Tenho dúvidas sobre o Curso Design Fairy.">Curso</button>
+            <button type="button" data-t="Quero saber sobre a mentoria.">Mentoria</button>
+          </div>
+          <textarea id="qMsg" rows="3" placeholder="Escreva sua mensagem para a Daniele…"></textarea>
+          <button class="btn btn-gold btn-sm" type="submit">Enviar no WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DÚVIDAS -->
+<section id="duvidas" style="padding-top:0">
+  <div class="wrap faq-wrap">
+    <div class="rv">
+      <span class="eyebrow">Dúvidas</span>
+      <h2>Perguntas <em>frequentes</em></h2>
+      <p class="lead" style="margin-top:16px">Não achou sua resposta? Chame a Daniele no WhatsApp.</p>
+    </div>
+    <div class="faq" id="faq">
+      <details class="rv"><summary>Como funciona o agendamento pelo site?<i></i></summary><p>Você escolhe o serviço, o dia e um horário livre. O horário fica reservado na mesma hora e a Daniele confirma com você pelo WhatsApp.</p></details>
+      <details class="rv"><summary>Posso marcar mais de um procedimento?<i></i></summary><p>Pode. Marque todos os serviços que quiser no primeiro passo. O valor total aparece no resumo antes de você reservar.</p></details>
+      <details class="rv"><summary>Preciso remarcar ou cancelar. E agora?<i></i></summary><p>Fale com a Daniele pelo WhatsApp e informe o código que aparece quando você reserva. Assim ela localiza seu horário rapidinho.</p></details>
+      <details class="rv"><summary>Quanto tempo dura a micropigmentação?<i></i></summary><p>Varia de pessoa para pessoa, conforme o tipo de pele e os cuidados depois do procedimento. A Daniele explica tudo no atendimento.</p></details>
+      <details class="rv"><summary>O curso serve para quem nunca atendeu?<i></i></summary><p>Sim. O Curso Design Fairy é pensado para quem quer começar do zero. <a href="curso.html" class="inline-link">Veja todos os detalhes do curso</a>.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="final rv">
+      <div class="fx">
+        <span class="eyebrow">Sua próxima versão começa aqui</span>
+        <h2>O olhar que você sempre quis está a <em>um clique</em>.</h2>
+        <div class="cta-row">
+          <a href="#agendar" class="btn btn-gold magnet">Agendar agora</a>
+          <a href="curso.html" class="btn btn-ghost magnet">Conhecer o curso</a>
+        </div>
+      </div>
+      <div class="fp"><img src="assets/img/hero.jpg" alt="Daniele Oliveira"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="color:var(--cream)">Daniele <i>Oliveira</i><small>Sobrancelhas &amp; PMU · Salvador, BA</small></div>
+      <p style="margin-top:14px">WhatsApp <span data-cfg="WHATSAPP_EXIBICAO">(71) 99348-2755</span> · @daniele.oliveirabc</p>
+    </div>
+    <div class="foot-links">
+      <a href="#servicos">Serviços</a><a href="#agendar">Agendar</a><a href="curso.html">Curso</a><a href="#contato">Contato</a>
+    </div>
+    <div class="soc">
+      <a href="https://www.instagram.com/daniele.oliveirabc/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="#" class="wa-link" data-msg="Olá, Daniele! Vim pelo seu site." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg></a>
+    </div>
+    <p class="foot-bottom">© 2026 Daniele Oliveira Sobrancelhas. Todos os direitos reservados. <a href="admin.html" class="admin-link">Área da Daniele</a></p>
+  </div>
+</footer>
+
+
+<a class="wa-float wa-link" href="#" data-msg="Olá, Daniele! Vim pelo seu site e quero agendar." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg></a>
+<div class="mbar" id="mbar">
+  <a href="#agendar" class="btn btn-gold">Agendar</a>
+  <a href="curso.html" class="btn btn-ghost">Curso</a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="assets/js/db.js"></script>
+<script src="assets/js/fx.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

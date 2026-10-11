@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Painel · Daniele Oliveira</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#120d0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Painel Dani">
+<link rel="manifest" href="admin.webmanifest">
+<link rel="icon" href="assets/img/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="login" id="login" hidden>
+  <canvas id="lDust" aria-hidden="true"></canvas>
+  <form class="l-card" id="lForm" novalidate>
+    <svg class="l-brow" viewBox="0 0 320 110" aria-hidden="true"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#b07a57"/><stop offset=".55" stop-color="#f0d6a8"/><stop offset="1" stop-color="#d9b47a"/></linearGradient></defs><path d="M20 88 C 60 60, 140 22, 205 24 C 245 26, 275 50, 300 74"/></svg>
+    <h1>Área da <em>Daniele</em></h1>
+    <p class="muted">Entre para ver sua agenda e liberar horários.</p>
+    <div class="demo-note" id="lDemo" hidden>Modo demonstração: entre com qualquer e-mail e senha.</div>
+    <label class="fld"><span>E-mail</span><input id="lEmail" type="email" autocomplete="username" placeholder="seu@email.com"></label>
+    <label class="fld"><span>Senha</span>
+      <span class="pw"><input id="lPass" type="password" autocomplete="current-password" placeholder="••••••••"><button type="button" id="lEye" aria-label="Mostrar senha">ver</button></span>
+    </label>
+    <div class="err" id="lErr" role="alert"></div>
+    <button class="btn gold full" id="lBtn" type="submit">Entrar</button>
+    <a class="back-site" href="index.html">← Voltar para o site</a>
+  </form>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="app" id="app" hidden>
+  <aside class="side">
+    <a class="brand" href="index.html" target="_blank" rel="noopener"><img src="assets/img/icone.svg" alt=""><span>Daniele <i>Oliveira</i><small>Painel</small></span></a>
+    <nav class="nav" id="nav">
+      <button data-v="agenda" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Agenda</span><b class="badge" id="bAgenda" hidden>0</b></button>
+      <button data-v="horarios"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Horários</span></button>
+      <button data-v="servicos"><svg viewBox="0 0 24 24"><path d="M3 15c4-5 10-8 18-6"/><path d="M5 19c4-4 9-6 14-5"/></svg><span>Serviços</span></button>
+      <button data-v="alunas"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg><span>Alunas</span><b class="badge" id="bAlunas" hidden>0</b></button>
+      <button data-v="ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg><span>Ajustes</span></button>
+    </nav>
+    <div class="side-foot">
+      <div class="live"><span class="dot"></span><span id="liveTxt">Ao vivo</span></div>
+      <a href="index.html" target="_blank" rel="noopener" class="ghost-link">Ver meu site ↗</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div>
+        <p class="hello" id="hello">Olá, Daniele</p>
+        <h1 id="vTitle">Agenda</h1>
+      </div>
+      <div class="top-act">
+        <span class="demo-pill" id="demoPill" hidden>Demonstração</span>
+        <button class="icon-btn" id="bell" aria-label="Novos agendamentos"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><b class="badge" id="bBell" hidden>0</b></button>
+      </div>
+    </header>
+
+    <!-- ========== AGENDA ========== -->
+    <section class="view on" data-view="agenda">
+      <div class="kpis" id="kpis">
+        <div class="kpi"><small>Hoje</small><b data-k="hoje">0</b><span>atendimentos</span></div>
+        <div class="kpi"><small>Próximos 7 dias</small><b data-k="semana">0</b><span>agendados</span></div>
+        <div class="kpi hot"><small>Aguardando</small><b data-k="novos">0</b><span>confirmar</span></div>
+        <div class="kpi"><small>Previsto no mês</small><b data-k="mes" data-money="1">R$ 0</b><span>em agendamentos</span></div>
+      </div>
+
+      <div class="strip-wrap">
+        <div class="strip" id="strip"></div>
+      </div>
+
+      <div class="bar">
+        <div class="seg" id="seg">
+          <button data-f="prox" class="on">Próximos</button>
+          <button data-f="novos">Novos</button>
+          <button data-f="hist">Histórico</button>
+        </div>
+        <button class="btn gold sm" id="addBtn"><span>+</span> Novo agendamento</button>
+      </div>
+
+      <div class="list" id="list"></div>
+    </section>
+
+    <!-- ========== HORÁRIOS ========== -->
+    <section class="view" data-view="horarios">
+      <p class="intro">Toque nos horários para <b>liberar</b> ou <b>bloquear</b>. As clientes só veem no site os horários em dourado. Tudo é salvo sozinho.</p>
+      <div class="days" id="days"></div>
+      <div class="card day-card" id="dayCard">
+        <div class="dc-head">
+          <div><h2 id="dcName">Segunda-feira</h2><p class="muted" id="dcInfo"></p></div>
+          <label class="switch"><input type="checkbox" id="dcOpen"><span></span><em>Atendo neste dia</em></label>
+        </div>
+        <div class="quick" id="dcQuick">
+          <button data-q="manha">Manhã toda</button>
+          <button data-q="tarde">Tarde toda</button>
+          <button data-q="noite">Noite</button>
+          <button data-q="limpar">Limpar</button>
+        </div>
+        <div id="hourGrid"></div>
+        <div class="dc-foot">
+          <span class="save-st" id="saveSt"></span>
+          <button class="btn ghost sm" id="copyBtn">Copiar para outros dias</button>
+        </div>
+        <div class="copy-box" id="copyBox" hidden>
+          <p class="muted">Aplicar estes horários em:</p>
+          <div class="copy-days" id="copyDays"></div>
+          <div class="row"><button class="btn ghost sm" id="copyCancel">Cancelar</button><button class="btn gold sm" id="copyApply">Aplicar</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Folgas e feriados</h2>
+        <p class="muted">Nesses dias nenhum horário aparece para as clientes.</p>
+        <div class="folga-form">
+          <label class="fld"><span>Data</span><input type="date" id="fgData"></label>
+          <label class="fld grow"><span>Motivo (opcional)</span><input id="fgMotivo" placeholder="Ex.: feriado, viagem, curso"></label>
+          <button class="btn gold sm" id="fgAdd">Fechar dia</button>
+        </div>
+        <div class="err" id="fgErr"></div>
+        <div class="folgas" id="folgas"></div>
+      </div>
+    </section>
+
+    <!-- ========== SERVIÇOS ========== -->
+    <section class="view" data-view="servicos">
+      <p class="intro">Mude preços e escolha o que aparece no site. As alterações valem na hora.</p>
+      <div class="svc-list" id="svcList"></div>
+    </section>
+
+    <!-- ========== ALUNAS ========== -->
+    <section class="view" data-view="alunas">
+      <p class="intro">Pessoas que pediram informações do curso ou da mentoria pela página do curso.</p>
+      <div class="seg" id="segA" style="margin-bottom:16px">
+        <button data-f="pend" class="on">Para responder</button>
+        <button data-f="todas">Todas</button>
+      </div>
+      <div class="list" id="alunas"></div>
+    </section>
+
+    <!-- ========== AJUSTES ========== -->
+    <section class="view" data-view="ajustes">
+      <div class="card notif" id="notifCard">
+        <div class="nc-head">
+          <span class="nc-ic"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></span>
+          <div><h2>Aviso no celular</h2><p class="muted">Receba uma notificação a cada novo agendamento, mesmo com o painel fechado.</p></div>
+          <span class="st-pill" id="ntfySt">Desligado</span>
+        </div>
+        <ol class="steps-n">
+          <li><b>Instale o app gratuito “ntfy”</b><span><a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a> · <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a></span></li>
+          <li><b>Gere seu código secreto</b>
+            <span class="code-row"><code id="ntfyCode">—</code><button class="btn ghost sm" id="ntfyCopy" hidden>Copiar</button><button class="btn gold sm" id="ntfyGen">Gerar código</button></span>
+          </li>
+          <li><b>No app, toque em “+”, cole o código e salve</b><span>Deixe o servidor padrão (ntfy.sh).</span></li>
+          <li><b>Teste</b><span><button class="btn ghost sm" id="ntfyTest">Enviar notificação de teste</button></span></li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Alertas neste aparelho</h2>
+        <p class="muted">Com o painel aberto, toca um som e aparece um aviso quando chega cliente nova.</p>
+        <div class="set-row"><span>Som de aviso</span><label class="switch"><input type="checkbox" id="optSom" checked><span></span></label></div>
+        <div class="set-row"><span>Aviso do navegador</span><button class="btn ghost sm" id="optNotif">Ativar</button></div>
+        <div class="set-row"><span>Instalar o painel como app</span><span class="muted sm-t">No celular: Compartilhar → “Adicionar à Tela de Início”.</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Seu site</h2>
+        <div class="set-row"><code id="siteUrl" class="url"></code><button class="btn ghost sm" id="siteCopy">Copiar link</button></div>
+        <div class="set-row"><span>Página do curso</span><a class="btn ghost sm" href="curso.html" target="_blank" rel="noopener">Abrir ↗</a></div>
+      </div>
+
+      <div class="card">
+        <h2>Conta</h2>
+        <div class="set-row"><span class="muted" id="accEmail"></span><button class="btn ghost sm" id="logout">Sair</button></div>
+        <div class="pw-change" id="pwBox">
+          <label class="fld grow"><span>Nova senha</span><input type="password" id="pwNew" autocomplete="new-password" placeholder="Mínimo 8 caracteres"></label>
+          <button class="btn ghost sm" id="pwSave">Trocar senha</button>
+        </div>
+        <div class="set-row" id="demoReset" hidden><span class="muted">Modo demonstração</span><button class="btn ghost sm" id="resetDemo">Restaurar exemplos</button></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+
+<!-- modal novo agendamento -->
+<div class="modal" id="modal" hidden>
+  <form class="sheet" id="mForm" novalidate>
+    <div class="sheet-grip"></div>
+    <h2>Novo agendamento</h2>
+    <p class="muted">Para clientes que marcaram pelo WhatsApp ou Instagram. O horário sai do site na hora.</p>
+    <label class="fld"><span>Nome da cliente</span><input id="mNome" placeholder="Nome"></label>
+    <label class="fld"><span>WhatsApp</span><input id="mTel" inputmode="tel" placeholder="(71) 99999-0000"></label>
+    <div class="fld"><span>Serviços</span><div class="m-svcs" id="mSvcs"></div></div>
+    <div class="row2">
+      <label class="fld"><span>Data</span><input type="date" id="mData"></label>
+      <label class="fld"><span>Horário</span><input type="time" id="mHora" step="900"></label>
+    </div>
+    <label class="fld"><span>Observação</span><input id="mObs" placeholder="Opcional"></label>
+    <div class="err" id="mErr"></div>
+    <div class="row"><button type="button" class="btn ghost" id="mCancel">Cancelar</button><button class="btn gold" id="mSave">Salvar</button></div>
+  </form>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="assets/js/db.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
