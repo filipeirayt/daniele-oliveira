@@ -12,7 +12,7 @@
 
 window.SITE_CONFIG = {
   SUPABASE_URL: "https://vxsstbysqwggtebprkxs.supabase.co/",
-  SUPABASE_ANON_KEY: "sb_publishable_LIWJ8UWXHlo0Yp6dV9aKaw_Glr0XcX6"",
+  SUPABASE_ANON_KEY: "sb_publishable_LIWJ8UWXHlo0Yp6dV9aKaw_Glr0XcX6",
 
   // WhatsApp da Daniele (só números, com 55 + DDD)
   WHATSAPP: "5571993482755",
