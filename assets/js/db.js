@@ -79,6 +79,9 @@
     };
     DB.getFolgas = async () => ok(await sb.from('folgas').select('*').gte('data', hojeIso()).order('data'));
     DB.getOcupados = async (ini, fim) => ok(await sb.rpc('horarios_ocupados', { p_inicio: ini, p_fim: fim }));
+    DB.getAgendaDias = async (ini, fim) => { let q = sb.from('agenda_dias').select('*').order('data'); if (ini) q = q.gte('data', ini); if (fim) q = q.lte('data', fim); const d = ok(await q); const m = {}; d.forEach(r => m[r.data] = (r.horas || []).slice().sort()); return m; };
+    DB.salvarAgendaDia = async (data, horas) => ok(await sb.from('agenda_dias').upsert({ data, horas: horas.slice().sort() }));
+    DB.removerAgendaDia = async (data) => ok(await sb.from('agenda_dias').delete().eq('data', data));
     DB.criarAgendamento = async (a) => ok(await sb.rpc('criar_agendamento', {
       p_nome: a.nome, p_telefone: a.telefone, p_observacao: a.observacao || '',
       p_servicos: a.servicos, p_data: a.data, p_hora: a.hora
@@ -145,7 +148,7 @@
     const st = {
       servicos: SERVICOS_PADRAO.map(s => ({ ...s })),
       horarios: JSON.parse(JSON.stringify(HORARIOS_PADRAO)),
-      folgas: [], agendamentos: [], interessadas: [], config: {}
+      folgas: [], agendaDias: {}, agendamentos: [], interessadas: [], config: {}
     };
     // alguns exemplos para o painel não abrir vazio (marcados como exemplo)
     const prox = []; const d = new Date();
@@ -167,6 +170,9 @@
   DB.getServicos = async (todos) => espera(copia(st().servicos.filter(s => todos || s.ativo).sort((a, b) => a.ordem - b.ordem)), 120);
   DB.getHorarios = async () => espera(copia(st().horarios), 120);
   DB.getFolgas = async () => espera(copia(st().folgas.filter(f => f.data >= hojeIso())), 80);
+  DB.getAgendaDias = async (ini, fim) => { const m = st().agendaDias || {}; const o = {}; Object.keys(m).forEach(d => { if ((!ini || d >= ini) && (!fim || d <= fim)) o[d] = m[d].slice() }); return espera(o, 80); };
+  DB.salvarAgendaDia = async (data, horas) => { const s = st(); s.agendaDias = s.agendaDias || {}; s.agendaDias[data] = horas.slice().sort(); gravar(s); return espera(true, 120); };
+  DB.removerAgendaDia = async (data) => { const s = st(); if (s.agendaDias) delete s.agendaDias[data]; gravar(s); return espera(true, 120); };
   DB.getOcupados = async (ini, fim) => espera(st().agendamentos.filter(a => a.status !== 'cancelado' && a.data >= ini && a.data <= fim).map(a => ({ data: a.data, hora: a.hora })), 200);
   DB.criarAgendamento = async (a) => {
     await espera(0, 650);
@@ -177,7 +183,8 @@
     if (!itens.length) throw erro('SEM_SERVICO');
     if (a.data < hojeIso()) throw erro('DATA_INVALIDA');
     if (s.folgas.some(f => f.data === a.data)) throw erro('DIA_FECHADO');
-    if (!(s.horarios[deIso(a.data).getDay()] || []).includes(a.hora)) throw erro('HORARIO_INDISPONIVEL');
+    const ovr = (s.agendaDias || {})[a.data];
+    if (!(ovr || s.horarios[deIso(a.data).getDay()] || []).includes(a.hora)) throw erro('HORARIO_INDISPONIVEL');
     if (a.data === hojeIso() && a.hora <= horaAgora()) throw erro('HORARIO_PASSOU');
     if (s.agendamentos.some(x => x.status !== 'cancelado' && x.data === a.data && x.hora === a.hora)) throw erro('HORARIO_OCUPADO');
     const row = { id: 'a' + Date.now(), codigo: Math.random().toString(36).slice(2, 8).toUpperCase(), nome: a.nome.trim(), telefone: a.telefone.trim(), observacao: a.observacao || null, servicos: itens, total: itens.reduce((t, x) => t + x.preco, 0), data: a.data, hora: a.hora, status: 'novo', origem: 'site', criado_em: new Date().toISOString() };

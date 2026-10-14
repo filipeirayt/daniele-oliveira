@@ -125,14 +125,14 @@
 
   async function carregarTudo(primeira) {
     try {
-      const [svc, ag, it, h, fg, cf] = await Promise.all([
-        DB.getServicos(true), DB.listarAgendamentos(addDias(hoje(), -90)), DB.listarInteressadas(), DB.getHorarios(), DB.listarFolgas(), DB.getConfig()
+      const [svc, ag, it, h, fg, cf, ad] = await Promise.all([
+        DB.getServicos(true), DB.listarAgendamentos(addDias(hoje(), -90)), DB.listarInteressadas(), DB.getHorarios(), DB.listarFolgas(), DB.getConfig(), DB.getAgendaDias(hoje(), addDias(hoje(), (CFG.DIAS_AGENDA || 90) + 31))
       ]);
-      SVC = svc; AG = ag; INT = it; H = h; FOLGAS = fg; CONF = cf || {};
+      SVC = svc; AG = ag; INT = it; H = h; FOLGAS = fg; CONF = cf || {}; AD = ad || {};
       if (primeira) { AG.forEach(a => seen.add(a.id)); INT.forEach(i => seenI.add(i.id)); }
       $('#liveTxt').textContent = 'Ao vivo · ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     } catch (e) { toast('Não consegui carregar', e.message, { icon: '!' }); }
-    renderAgenda(); renderDias(); renderDia(); renderFolgas(); renderServicos(); renderAlunas(); renderAjustes();
+    renderAgenda(); renderDias(); renderDia(); renderDatas(); renderServicos(); renderAlunas(); renderAjustes();
   }
 
   /* ---------- tempo real ---------- */
@@ -152,7 +152,7 @@
       const [ag, it] = await Promise.all([DB.listarAgendamentos(addDias(hoje(), -90)), DB.listarInteressadas()]);
       ag.filter(a => !seen.has(a.id)).forEach(novoAgendamento);
       it.filter(i => !seenI.has(i.id)).forEach(novaInteressada);
-      AG = ag; INT = it; renderAgenda(); renderAlunas();
+      AG = ag; INT = it; renderAgenda(); renderAlunas(); if (!$('#paneDatas').hidden) renderDatas();
       $('#liveTxt').textContent = 'Ao vivo · ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     } catch (e) { $('#liveTxt').textContent = 'Sem conexão'; }
   }
@@ -342,7 +342,7 @@
     const st = $('#saveSt'); st.className = 'save-st'; st.textContent = 'Salvando…';
     clearTimeout(timers[d]);
     timers[d] = setTimeout(async () => {
-      try { await DB.salvarHorarios(d, (H[d] || []).slice().sort()); st.className = 'save-st ok'; st.textContent = '✓ Salvo · já aparece no site'; }
+      try { await DB.salvarHorarios(d, (H[d] || []).slice().sort()); st.className = 'save-st ok'; st.textContent = '✓ Salvo · vale para toda ' + DIAS[d].toLowerCase(); }
       catch (e) { st.className = 'save-st'; st.textContent = 'Erro ao salvar: ' + e.message; }
     }, 500);
   }
@@ -359,25 +359,141 @@
     finally { btn.classList.remove('loading'); }
   };
 
-  /* folgas */
-  function renderFolgas() {
-    $('#fgData').min = hoje();
-    $('#folgas').innerHTML = FOLGAS.length ? FOLGAS.map((f, i) => `<div class="fg" style="animation-delay:${i * 40}ms"><div><b>${fmtLongo(f.data)}</b><br><span>${esc(f.motivo || 'Dia fechado')}</span></div><button class="x" data-d="${f.data}" aria-label="Reabrir dia">✕</button></div>`).join('') : '<p class="muted" style="margin-top:6px">Nenhuma folga marcada.</p>';
+  /* ============================================================
+     HORÁRIOS POR DATA (vale só para o dia escolhido)
+     ============================================================ */
+  const DIAS_AG = CFG.DIAS_AGENDA || 90;
+  let AD = {}, dtSel = null, acMes = null;
+  const maxData = () => addDias(hoje(), DIAS_AG);
+  const folgaDe = iso => FOLGAS.find(f => f.data === iso);
+  const padraoDe = iso => (H[U.deIso(iso).getDay()] || []).slice().sort();
+  const horasData = iso => (AD[iso] ? AD[iso] : padraoDe(iso)).slice().sort();
+  const clientesDe = iso => AG.filter(a => ativo(a) && a.data === iso).sort((x, y) => x.hora.localeCompare(y.hora));
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const mesmo = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+
+  $('#hMode').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    $$('#hMode button').forEach(x => x.classList.toggle('on', x === b));
+    $('#paneDatas').hidden = b.dataset.m !== 'datas'; $('#paneSemana').hidden = b.dataset.m !== 'semana';
+    if (b.dataset.m === 'datas') renderDatas(); else { renderDias(); renderDia(); }
+  });
+
+  function renderDatas() {
+    if (!acMes) { const d = U.deIso(hoje()); acMes = new Date(d.getFullYear(), d.getMonth(), 1); }
+    if (!dtSel) dtSel = hoje();
+    $('#acTitle').textContent = cap(acMes.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }));
+    const first = acMes.getDay(), dias = new Date(acMes.getFullYear(), acMes.getMonth() + 1, 0).getDate(), h = hoje(), mx = maxData();
+    let html = DIAS_C.map(d => `<div class="dw">${d[0]}</div>`).join('');
+    for (let i = 0; i < first; i++) html += '<button class="ad empty" disabled></button>';
+    for (let d = 1; d <= dias; d++) {
+      const iso = U.iso(new Date(acMes.getFullYear(), acMes.getMonth(), d));
+      const fora = iso < h || iso > mx, fg = folgaDe(iso), hs = horasData(iso), nCli = clientesDe(iso).length;
+      let cls = 'ad', lab = '';
+      if (fg) { cls += ' off'; lab = 'fechado'; }
+      else { lab = hs.length ? hs.length + 'h' : 'fechado'; if (AD[iso]) cls += ' cus'; else if (!hs.length) cls += ' off'; }
+      if (iso === h) cls += ' today'; if (iso === dtSel) cls += ' sel';
+      html += `<button class="${cls}" data-d="${iso}" ${fora ? 'disabled' : ''} style="animation-delay:${d * 10}ms"><b>${d}</b><small>${fora ? '' : lab}</small>${nCli && !fora ? `<i class="bk">${nCli}</i>` : ''}</button>`;
+    }
+    $('#acal').innerHTML = html;
+    const ini = U.deIso(h), fim = U.deIso(mx);
+    $('#acPrev').disabled = acMes.getFullYear() === ini.getFullYear() && acMes.getMonth() === ini.getMonth();
+    $('#acNext').disabled = acMes.getFullYear() === fim.getFullYear() && acMes.getMonth() === fim.getMonth();
+    renderData();
+    renderFolgas();
   }
-  $('#fgAdd').onclick = async () => {
-    const d = $('#fgData').value, err = $('#fgErr'); err.textContent = '';
-    if (!d) return err.textContent = 'Escolha a data.';
-    if (d < hoje()) return err.textContent = 'Escolha uma data a partir de hoje.';
-    const btn = $('#fgAdd'); btn.classList.add('loading');
-    try {
-      await DB.addFolga(d, $('#fgMotivo').value.trim()); FOLGAS = await DB.listarFolgas(); renderFolgas();
-      const n = AG.filter(a => ativo(a) && a.data === d).length;
-      toast('Dia fechado', fmtLongo(d)); if (n) toast(`Atenção: ${n} cliente${n > 1 ? 's' : ''} já marcada${n > 1 ? 's' : ''} nesse dia`, 'Veja na agenda e avise pelo WhatsApp.', { icon: '!', big: true, onClick: () => { ver('agenda'); diaFiltro = d; renderAgenda() } });
-      $('#fgData').value = ''; $('#fgMotivo').value = '';
-    } catch (e) { err.textContent = e.message; }
+  $('#acPrev').onclick = () => { acMes.setMonth(acMes.getMonth() - 1); renderDatas(); };
+  $('#acNext').onclick = () => { acMes.setMonth(acMes.getMonth() + 1); renderDatas(); };
+  $('#acal').addEventListener('click', e => {
+    const b = e.target.closest('.ad[data-d]'); if (!b || b.disabled) return;
+    dtSel = b.dataset.d; $('#dtCloseBox').hidden = true;
+    $$('#acal .ad').forEach(x => x.classList.toggle('sel', x === b));
+    renderData();
+    if (innerWidth < 980) $('#dateCard').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  function renderData() {
+    const iso = dtSel, fg = folgaDe(iso), hs = new Set(horasData(iso)), cli = clientesDe(iso);
+    const porHora = {}; cli.forEach(c => porHora[c.hora] = c);
+    $('#dtName').textContent = cap(fmtLongo(iso));
+    const chip = $('#dtChip'); chip.className = 'st-chip';
+    if (fg) { chip.classList.add('off'); chip.textContent = 'Fechado'; }
+    else if (AD[iso]) { chip.classList.add('cus'); chip.textContent = 'Personalizado'; }
+    else chip.textContent = 'Padrão da semana';
+    const livres = [...hs].filter(x => !porHora[x]).length;
+    $('#dtInfo').textContent = fg ? 'As clientes não veem nenhum horário neste dia.' : hs.size ? `${hs.size} horários abertos · ${livres} livre${livres === 1 ? '' : 's'} · ${cli.length} cliente${cli.length === 1 ? '' : 's'}` : 'Nenhum horário aberto neste dia.';
+    $('#dtClosed').hidden = !fg; $('#dtBody').hidden = !!fg;
+    $('#dtMotivo').textContent = fg ? (fg.motivo || 'Sem motivo informado') : '';
+    $('#dtReset').hidden = !AD[iso] || !!fg; $('#dtClose').hidden = !!fg;
+    const grupos = [['Manhã', h => h < '12:00'], ['Tarde', h => h >= '12:00' && h < '18:00'], ['Noite', h => h >= '18:00']];
+    const todas = [...new Set(TODAS.concat(Object.keys(porHora)))].sort(); let k = 0;
+    $('#dtGrid').innerHTML = grupos.map(([n, f]) => `<div class="hgroup"><small>${n}</small><div class="hgrid">${todas.filter(f).map(h => {
+      const c = porHora[h];
+      if (c) return `<button class="hc bkd" data-h="${h}" data-bk="1" title="${esc(c.nome)}" style="animation:viewIn .35s ${(k++) * 10}ms both">${h}<small>${esc(c.nome.split(' ')[0])}</small></button>`;
+      return `<button class="hc${hs.has(h) ? ' on' : ''}" data-h="${h}" aria-pressed="${hs.has(h)}" style="animation:viewIn .35s ${(k++) * 10}ms both">${h}</button>`;
+    }).join('')}</div></div>`).join('');
+    $('#dtBook').innerHTML = cli.length ? '<small>Clientes marcadas</small>' + cli.map(c => `<div class="bk-row"><div><b>${esc(c.hora)}</b>${esc(c.nome)}</div><span>${esc((c.servicos || []).map(s => s.nome).join(', '))}</span></div>`).join('') : '';
+  }
+
+  const dtT = {};
+  function salvarData(iso, horas) {
+    horas = [...new Set(horas)].sort();
+    if (mesmo(horas, padraoDe(iso))) delete AD[iso]; else AD[iso] = horas;
+    const st = $('#dtSave'); st.className = 'save-st'; st.textContent = 'Salvando…';
+    renderDatas();
+    clearTimeout(dtT[iso]);
+    dtT[iso] = setTimeout(async () => {
+      try {
+        if (AD[iso]) await DB.salvarAgendaDia(iso, AD[iso]); else await DB.removerAgendaDia(iso);
+        st.className = 'save-st ok'; st.textContent = '✓ Salvo · só ' + fmtDia(iso);
+      } catch (e) { st.className = 'save-st'; st.textContent = 'Erro ao salvar: ' + e.message; }
+    }, 450);
+  }
+  $('#dtGrid').addEventListener('click', e => {
+    const b = e.target.closest('.hc'); if (!b) return;
+    if (b.dataset.bk) { const c = clientesDe(dtSel).find(x => x.hora === b.dataset.h); return toast('Horário ocupado por ' + (c ? c.nome : 'uma cliente'), 'Para liberar, cancele o agendamento na Agenda.', { icon: '!' }); }
+    const s = new Set(horasData(dtSel)); const h = b.dataset.h; s.has(h) ? s.delete(h) : s.add(h);
+    b.classList.remove('flip'); void b.offsetWidth; b.classList.add('flip');
+    salvarData(dtSel, [...s]);
+  });
+  $('#dtQuick').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]'); if (!b) return; const s = new Set(horasData(dtSel));
+    const blocos = { manha: ['08:00', '09:00', '10:00', '11:00'], tarde: ['13:00', '14:00', '15:00', '16:00', '17:00'], noite: ['18:00', '19:00', '20:00'] };
+    if (b.dataset.q === 'limpar') s.clear();
+    else { const bl = blocos[b.dataset.q]; const todos = bl.every(h => s.has(h)); bl.forEach(h => todos ? s.delete(h) : s.add(h)); }
+    salvarData(dtSel, [...s]);
+  });
+  $('#dtReset').onclick = async () => {
+    const btn = $('#dtReset'); btn.classList.add('loading');
+    try { await DB.removerAgendaDia(dtSel); delete AD[dtSel]; renderDatas(); toast('Dia voltou ao padrão', fmtLongo(dtSel)); }
+    catch (e) { toast('Erro', e.message, { icon: '!' }); }
     finally { btn.classList.remove('loading'); }
   };
-  $('#folgas').addEventListener('click', async e => { const b = e.target.closest('.x'); if (!b) return; b.closest('.fg').style.opacity = .3; try { await DB.removerFolga(b.dataset.d); FOLGAS = FOLGAS.filter(f => f.data !== b.dataset.d); renderFolgas(); toast('Dia reaberto', fmtLongo(b.dataset.d)); } catch (ex) { toast('Erro', ex.message, { icon: '!' }) } });
+  $('#dtClose').onclick = () => { $('#dtCloseBox').hidden = false; $('#dtCloseMotivo').value = ''; setTimeout(() => $('#dtCloseMotivo').focus(), 100); };
+  $('#dtCloseCancel').onclick = () => { $('#dtCloseBox').hidden = true; };
+  $('#dtCloseOk').onclick = async () => {
+    const d = dtSel, btn = $('#dtCloseOk'); btn.classList.add('loading');
+    try {
+      await DB.addFolga(d, $('#dtCloseMotivo').value.trim()); FOLGAS = await DB.listarFolgas(); $('#dtCloseBox').hidden = true; renderDatas();
+      const n = clientesDe(d).length;
+      toast('Dia fechado', fmtLongo(d)); if (n) toast(`Atenção: ${n} cliente${n > 1 ? 's' : ''} já marcada${n > 1 ? 's' : ''} nesse dia`, 'Veja na agenda e avise pelo WhatsApp.', { icon: '!', big: true, onClick: () => { ver('agenda'); diaFiltro = d; renderAgenda() } });
+    } catch (e) { toast('Erro', e.message, { icon: '!' }); }
+    finally { btn.classList.remove('loading'); }
+  };
+  async function reabrir(d) {
+    try { await DB.removerFolga(d); FOLGAS = FOLGAS.filter(f => f.data !== d); renderDatas(); toast('Dia reaberto', fmtLongo(d)); }
+    catch (ex) { toast('Erro', ex.message, { icon: '!' }) }
+  }
+  $('#dtReopen').onclick = () => reabrir(dtSel);
+
+  /* lista de dias fechados */
+  function renderFolgas() {
+    $('#folgas').innerHTML = FOLGAS.length ? FOLGAS.map((f, i) => `<div class="fg" style="animation-delay:${i * 40}ms" data-go="${f.data}"><div><b>${cap(fmtLongo(f.data))}</b><br><span>${esc(f.motivo || 'Dia fechado')}</span></div><button class="x" data-d="${f.data}" aria-label="Reabrir dia">✕</button></div>`).join('') : '<p class="muted">Nenhum dia fechado.</p>';
+  }
+  $('#folgas').addEventListener('click', e => {
+    const b = e.target.closest('.x'); if (b) { b.closest('.fg').style.opacity = .3; return reabrir(b.dataset.d); }
+    const g = e.target.closest('[data-go]'); if (g) { dtSel = g.dataset.go; const d = U.deIso(dtSel); acMes = new Date(d.getFullYear(), d.getMonth(), 1); renderDatas(); }
+  });
 
   /* ============================================================
      SERVIÇOS

@@ -25,6 +25,12 @@ create table if not exists public.horarios (
   horas      text[] not null default '{}'
 );
 
+-- horários de UMA data específica (vale por cima da semana padrão; lista vazia = dia fechado)
+create table if not exists public.agenda_dias (
+  data  date primary key,
+  horas text[] not null default '{}'
+);
+
 -- dias de folga / feriado (nenhum horário fica disponível nesse dia)
 create table if not exists public.folgas (
   data   date primary key,
@@ -94,6 +100,7 @@ end $$;
 alter table public.servicos      enable row level security;
 alter table public.horarios      enable row level security;
 alter table public.folgas        enable row level security;
+alter table public.agenda_dias   enable row level security;
 alter table public.agendamentos  enable row level security;
 alter table public.interessadas  enable row level security;
 alter table public.config        enable row level security;
@@ -113,6 +120,11 @@ drop policy if exists "folgas_ler"   on public.folgas;
 drop policy if exists "folgas_admin" on public.folgas;
 create policy "folgas_ler"   on public.folgas for select using (true);
 create policy "folgas_admin" on public.folgas for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "agenda_dias_ler"   on public.agenda_dias;
+drop policy if exists "agenda_dias_admin" on public.agenda_dias;
+create policy "agenda_dias_ler"   on public.agenda_dias for select using (true);
+create policy "agenda_dias_admin" on public.agenda_dias for all using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "agendamentos_admin" on public.agendamentos;
 create policy "agendamentos_admin" on public.agendamentos for all using (public.is_admin()) with check (public.is_admin());
@@ -156,7 +168,11 @@ begin
   if p_data is null or p_data < v_hoje or p_data > v_hoje + 90 then raise exception 'DATA_INVALIDA'; end if;
   if exists (select 1 from public.folgas f where f.data = p_data) then raise exception 'DIA_FECHADO'; end if;
 
-  select h.horas into v_horas from public.horarios h where h.dia_semana = extract(dow from p_data)::int;
+  -- data específica vale mais que a semana padrão
+  select d.horas into v_horas from public.agenda_dias d where d.data = p_data;
+  if not found then
+    select h.horas into v_horas from public.horarios h where h.dia_semana = extract(dow from p_data)::int;
+  end if;
   if v_horas is null or not (p_hora = any(v_horas)) then raise exception 'HORARIO_INDISPONIVEL'; end if;
   if p_data = v_hoje and p_hora <= to_char(v_agora, 'HH24:MI') then raise exception 'HORARIO_PASSOU'; end if;
 
@@ -260,8 +276,8 @@ end $$;
 
 -- ---------- PERMISSÕES ----------
 grant usage on schema public to anon, authenticated;
-grant select on public.servicos, public.horarios, public.folgas to anon, authenticated;
-grant all on public.servicos, public.horarios, public.folgas, public.agendamentos,
+grant select on public.servicos, public.horarios, public.folgas, public.agenda_dias to anon, authenticated;
+grant all on public.servicos, public.horarios, public.folgas, public.agenda_dias, public.agendamentos,
              public.interessadas, public.config, public.admins to authenticated;
 grant execute on function public.horarios_ocupados(date, date) to anon, authenticated;
 grant execute on function public.criar_agendamento(text, text, text, text[], date, text) to anon, authenticated;

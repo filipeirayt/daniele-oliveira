@@ -161,7 +161,7 @@
   const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
   const hojeIso = U.iso(hoje);
   const maxD = new Date(hoje); maxD.setDate(maxD.getDate() + DIAS); const maxIso = U.iso(maxD);
-  let H = null, FOLGAS = new Set(), OC = [], step = 0, date = null, time = null, vm = new Date(hoje.getFullYear(), hoje.getMonth(), 1), agendaCarregada = 0;
+  let H = null, OVR = {}, FOLGAS = new Set(), OC = [], step = 0, date = null, time = null, vm = new Date(hoje.getFullYear(), hoje.getMonth(), 1), agendaCarregada = 0;
   if (DB.modo === 'demo') $('#demoTag').hidden = false;
 
   const fmtDate = iso => U.deIso(iso).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
@@ -171,8 +171,8 @@
     if (!forcar && H && Date.now() - agendaCarregada < 30000) return;
     $('#cal').classList.add('loading');
     try {
-      const [h, f, oc] = await Promise.all([DB.getHorarios(), DB.getFolgas(), DB.getOcupados(hojeIso, maxIso)]);
-      H = h; FOLGAS = new Set(f.map(x => x.data)); OC = oc; agendaCarregada = Date.now();
+      const [h, f, oc, ov] = await Promise.all([DB.getHorarios(), DB.getFolgas(), DB.getOcupados(hojeIso, maxIso), DB.getAgendaDias ? DB.getAgendaDias(hojeIso, maxIso).catch(() => ({})) : {}]);
+      H = h; OVR = ov || {}; FOLGAS = new Set(f.map(x => x.data)); OC = oc; agendaCarregada = Date.now();
       $('#liveTxt').textContent = 'Agenda atualizada agora';
       resumoHorarios();
     } catch (e) {
@@ -182,6 +182,7 @@
   }
   function horasDoDia(iso) {
     if (!H || FOLGAS.has(iso)) return [];
+    if (OVR[iso]) return OVR[iso].slice().sort();
     return (H[U.deIso(iso).getDay()] || []).slice().sort();
   }
   function livres(iso) {
