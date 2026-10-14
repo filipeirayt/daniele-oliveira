@@ -94,41 +94,99 @@
 
     <!-- ========== HORÁRIOS ========== -->
     <section class="view" data-view="horarios">
-      <p class="intro">Toque nos horários para <b>liberar</b> ou <b>bloquear</b>. As clientes só veem no site os horários em dourado. Tudo é salvo sozinho.</p>
-      <div class="days" id="days"></div>
-      <div class="card day-card" id="dayCard">
-        <div class="dc-head">
-          <div><h2 id="dcName">Segunda-feira</h2><p class="muted" id="dcInfo"></p></div>
-          <label class="switch"><input type="checkbox" id="dcOpen"><span></span><em>Atendo neste dia</em></label>
+      <div class="seg mode-seg" id="hMode">
+        <button data-m="datas" class="on">Por data</button>
+        <button data-m="semana">Semana padrão</button>
+      </div>
+
+      <!-- POR DATA -->
+      <div id="paneDatas" class="pane">
+        <p class="intro">Toque num dia do calendário e ajuste <b>só aquele dia</b>: abra horários extras, bloqueie um horário ou feche o dia. As outras semanas não mudam.</p>
+        <div class="dates-grid">
+          <div class="card cal-card">
+            <div class="ac-head">
+              <button class="cal-btn" id="acPrev" aria-label="Mês anterior">‹</button>
+              <h2 id="acTitle"></h2>
+              <button class="cal-btn" id="acNext" aria-label="Próximo mês">›</button>
+            </div>
+            <div class="acal" id="acal"></div>
+            <div class="acal-leg">
+              <span><i class="lg-pad"></i>Padrão da semana</span>
+              <span><i class="lg-cus"></i>Personalizado</span>
+              <span><i class="lg-off"></i>Fechado</span>
+              <span><i class="lg-bk"></i>Clientes marcadas</span>
+            </div>
+          </div>
+
+          <div class="card date-card" id="dateCard">
+            <span class="st-chip" id="dtChip">Padrão da semana</span>
+            <h2 id="dtName"></h2>
+            <p class="muted" id="dtInfo"></p>
+
+            <div class="dt-closed" id="dtClosed" hidden>
+              <b>Dia fechado</b>
+              <span id="dtMotivo"></span>
+              <button class="btn gold sm" id="dtReopen">Reabrir este dia</button>
+            </div>
+
+            <div id="dtBody">
+              <div class="quick" id="dtQuick">
+                <button data-q="manha">Manhã toda</button>
+                <button data-q="tarde">Tarde toda</button>
+                <button data-q="noite">Noite</button>
+                <button data-q="limpar">Limpar</button>
+              </div>
+              <div id="dtGrid"></div>
+            </div>
+            <div class="dt-book" id="dtBook"></div>
+
+            <div class="dc-foot">
+              <span class="save-st" id="dtSave"></span>
+              <div class="row">
+                <button class="btn ghost sm" id="dtReset" hidden>Voltar ao padrão</button>
+                <button class="btn ghost sm" id="dtClose">Fechar este dia</button>
+              </div>
+            </div>
+            <div class="copy-box" id="dtCloseBox" hidden>
+              <label class="fld"><span>Motivo (opcional)</span><input id="dtCloseMotivo" placeholder="Ex.: feriado, viagem, curso"></label>
+              <div class="row"><button class="btn ghost sm" id="dtCloseCancel">Cancelar</button><button class="btn gold sm" id="dtCloseOk">Fechar dia</button></div>
+            </div>
+          </div>
         </div>
-        <div class="quick" id="dcQuick">
-          <button data-q="manha">Manhã toda</button>
-          <button data-q="tarde">Tarde toda</button>
-          <button data-q="noite">Noite</button>
-          <button data-q="limpar">Limpar</button>
-        </div>
-        <div id="hourGrid"></div>
-        <div class="dc-foot">
-          <span class="save-st" id="saveSt"></span>
-          <button class="btn ghost sm" id="copyBtn">Copiar para outros dias</button>
-        </div>
-        <div class="copy-box" id="copyBox" hidden>
-          <p class="muted">Aplicar estes horários em:</p>
-          <div class="copy-days" id="copyDays"></div>
-          <div class="row"><button class="btn ghost sm" id="copyCancel">Cancelar</button><button class="btn gold sm" id="copyApply">Aplicar</button></div>
+
+        <div class="card">
+          <h2>Dias fechados</h2>
+          <p class="muted">Folgas e feriados marcados. Toque no ✕ para reabrir.</p>
+          <div class="folgas" id="folgas" style="margin-top:14px"></div>
         </div>
       </div>
 
-      <div class="card">
-        <h2>Folgas e feriados</h2>
-        <p class="muted">Nesses dias nenhum horário aparece para as clientes.</p>
-        <div class="folga-form">
-          <label class="fld"><span>Data</span><input type="date" id="fgData"></label>
-          <label class="fld grow"><span>Motivo (opcional)</span><input id="fgMotivo" placeholder="Ex.: feriado, viagem, curso"></label>
-          <button class="btn gold sm" id="fgAdd">Fechar dia</button>
+      <!-- SEMANA PADRÃO -->
+      <div id="paneSemana" class="pane" hidden>
+        <p class="intro">Estes horários se repetem <b>toda semana</b>. Para mudar só um dia específico, use <b>Por data</b>.</p>
+        <div class="days" id="days"></div>
+        <div class="card day-card" id="dayCard">
+          <div class="dc-head">
+            <div><h2 id="dcName">Segunda-feira</h2><p class="muted" id="dcInfo"></p></div>
+            <label class="switch"><input type="checkbox" id="dcOpen"><span></span><em>Atendo neste dia</em></label>
+          </div>
+          <div class="quick" id="dcQuick">
+            <button data-q="manha">Manhã toda</button>
+            <button data-q="tarde">Tarde toda</button>
+            <button data-q="noite">Noite</button>
+            <button data-q="limpar">Limpar</button>
+          </div>
+          <div id="hourGrid"></div>
+          <div class="dc-foot">
+            <span class="save-st" id="saveSt"></span>
+            <button class="btn ghost sm" id="copyBtn">Copiar para outros dias</button>
+          </div>
+          <div class="copy-box" id="copyBox" hidden>
+            <p class="muted">Aplicar estes horários em:</p>
+            <div class="copy-days" id="copyDays"></div>
+            <div class="row"><button class="btn ghost sm" id="copyCancel">Cancelar</button><button class="btn gold sm" id="copyApply">Aplicar</button></div>
+          </div>
         </div>
-        <div class="err" id="fgErr"></div>
-        <div class="folgas" id="folgas"></div>
       </div>
     </section>
 

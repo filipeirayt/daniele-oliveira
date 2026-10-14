@@ -22,7 +22,7 @@ Tudo aqui é **gratuito**. Leva uns 20 minutos na primeira vez.
 
 1. Entre em **supabase.com** e clique em **Start your project** (pode entrar com a conta do GitHub).
 2. Clique em **New project**:
-   - **Name:** `daniele-oliveira`9Jhuw9eu33EW8JT
+   - **Name:** `daniele-oliveira`
    - **Database Password:** crie uma senha e guarde (não vai precisar no dia a dia)
    - **Region:** `South America (São Paulo)`
    - Clique em **Create new project** e espere uns 2 minutos.
@@ -73,9 +73,11 @@ Salve o arquivo. Pronto, o site agora usa a agenda de verdade.
 ## PARTE 3 — Primeiro acesso da Daniele
 
 1. Abra `seusite.vercel.app/admin` e entre com o e-mail e a senha da Parte 1.
-2. **Horários:** toque em cada dia da semana e deixe em dourado só os horários que ela atende. Salva sozinho.
-   - "Copiar para outros dias" repete a mesma grade nos outros dias.
-   - Em **Folgas e feriados** ela fecha um dia inteiro.
+2. **Horários** tem duas abas:
+   - **Semana padrão:** a grade que se repete toda semana (ex.: segunda das 8h às 17h). Ela configura uma vez só. "Copiar para outros dias" repete a mesma grade.
+   - **Por data:** um calendário dos próximos 90 dias. Ela toca num dia e muda **só aquele dia**: abre horário extra (ex.: 19h numa terça), bloqueia um horário ou toca em **Fechar este dia** (folga ou feriado). **Voltar ao padrão** desfaz. As outras semanas não mudam.
+   - No calendário: dourado = dia personalizado, listrado = fechado, bolinha vermelha = quantas clientes já marcaram.
+   - Uma semana lotada **não fecha** as próximas: a cliente simplesmente vê aqueles dias como "lotado" e escolhe outra data.
 3. **Serviços:** confira preços. Dá para esconder um serviço (botão liga/desliga) e marcar ★ "mais procurado".
 4. **Aviso no celular** (aba Ajustes):
    1. Instale o app gratuito **ntfy** (App Store ou Google Play).
@@ -102,6 +104,10 @@ Salve o arquivo. Pronto, o site agora usa a agenda de verdade.
 - No painel, cada agendamento novo aparece como **Novo**. Ao tocar em **Confirmar**, abre o WhatsApp da cliente com a mensagem de confirmação pronta.
 - **Novo agendamento** no painel serve para clientes que marcaram por WhatsApp ou Instagram. O horário some do site na hora.
 - Interessadas no curso ou na mentoria aparecem na aba **Alunas**, com botão para chamar no WhatsApp.
+
+## Já tinha rodado o banco antes?
+
+Se você já colou o `banco.sql` no Supabase numa versão anterior, **rode o arquivo novo de novo** (SQL Editor → New query → colar → Run). Ele só acrescenta a agenda por data e não apaga nenhum agendamento.
 
 ## Problemas comuns
 
