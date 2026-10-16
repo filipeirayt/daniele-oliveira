@@ -71,7 +71,7 @@
     [rAt, rVl].forEach(r => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%'));
     $('#vAt').textContent = at; $('#vVl').textContent = brl(vl);
     const mes = Math.round(at * vl * 4.3);
-    $('#calcPay').textContent = Math.ceil(600 / vl);
+    $('#calcPay').textContent = Math.ceil(700 / vl);
     cancelAnimationFrame(bigRaf); const de = big, st = performance.now();
     const f = n => { const p = Math.min(1, (n - st) / 500); big = de + (mes - de) * (1 - Math.pow(1 - p, 3)); $('#calcBig').textContent = brl(Math.round(big)); if (p < 1) bigRaf = requestAnimationFrame(f) };
     bigRaf = requestAnimationFrame(f);
